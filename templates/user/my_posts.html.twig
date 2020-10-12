@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My page{% endblock %}
+
+{% block body %}
+    <h1>Мои фото</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Фото</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td><img src="{{ asset('uploads/') ~ post.getImg }}" width="200"></td>
+                <td>
+                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
+                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

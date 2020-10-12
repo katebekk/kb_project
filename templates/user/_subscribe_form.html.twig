@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('unsubscribe', {'id': user.id}) }}" >
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('unsubscribe' ~ user.id) }}">
+    <button class="btn">unsubscribe</button>
+</form>

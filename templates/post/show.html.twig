@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <h1>Post</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>DateOfCreation</th>
+                <td>{{ post.dateOfCreation ? post.dateOfCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ post.description }}</td>
+            </tr>
+            <tr>
+                <td><img src="{{ asset('uploads/') ~ image }}" width="300"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ ref }}">back to list</a>
+{% endblock %}

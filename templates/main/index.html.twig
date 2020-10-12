@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <h1> MyGallery моя страница</h1>
+                <table class="table">
+                        <tbody>
+                        <tr>
+                                <th>Email</th>
+                                <td>{{ app.user.email }}</td>
+                        </tr>
+                        <tr>
+                                <th>Nickname</th>
+                                <td>{{ app.user.nickname }}</td>
+                        </tr>
+                        <tr>
+                                <th>Description</th>
+                                <td>{{ app.user.description }}</td>
+                        </tr>
+                        </tbody>
+                        <a href="{{ path('user_edit', {'id': app.user.id}) }}">edit</a>
+                </table>
+        {% else %}
+                <h1>Главная страница MyGallery</h1>
+        {% endif %}
+{% endblock %}

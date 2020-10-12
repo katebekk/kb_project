@@ -3,10 +3,66 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+       {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+        {% block header %}
+                <div class="header_logo">
+                    <a href="">MyGallery</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <a href="" id="nick">{{ app.user.nickname }}</a>
+                    {% endif %}
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="{{ path('user') }}">Главная</a></li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <li><a href={{ path('post_new') }}>Добавить фото</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                    <button class="green"><a href="{{ path('app_logout') }}">Выйти</a> </button>
+                {% else %}
+                    <button class="green"><a href="{{ path('app_login') }}">Войти</a> </button>
+                    <button class="green"><a href="{{ path('app_register') }}">Регистрация</a> </button>
+                {% endif %}
+        {% endblock %}
+        </header>
+    <div class="center_block_main">
+        <aside>
+            {%  block sidebar%}
+                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                    <ul>
+                        <li>
+                            <a href="{{path('my_posts')}}">Мои фото</a>
+                        </li>
+                        <li>
+                            <a href="{{path('my_subscribers')}}">Мои подписчики</a>
+                        </li>
+                        <li>
+                            <a href="{{path('my_subscriptions')}}">Мои подписки</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('all_users') }}">Все пользователи</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+        </aside>
+        <main>
+        {% block body%}
+        {% endblock %}
+        </main>
+
         {% block javascripts %}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </div>
+
     </body>
+    <footer>FOOTER</footer>
 </html>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit GaleryUser{% endblock %}
+
+{% block body %}
+    <h1>Edit GaleryUser</h1>
+
+    {{ include('galery_user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('galery_user_index') }}">back to list</a>
+
+    {{ include('galery_user/_delete_form.html.twig') }}
+{% endblock %}

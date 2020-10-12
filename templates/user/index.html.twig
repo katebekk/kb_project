@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <h1>Пользователи</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>nickname</th>
+            <th>Description</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if not (user.id == curUser.id) %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.nickname }}</td>
+                <td>{{ user.description }}</td>
+
+                <td> {#{{ include('user/_delete_form.html.twig') }}#}
+                    {#<a href="{{ path('post_show', {'id': post.id}) }}">show</a>
+                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>#}
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
