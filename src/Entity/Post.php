@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,10 +29,6 @@ class Post
      */
     private $description;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GaleryUser", inversedBy="post")
-     */
-    private $galleryUser;
 
     /**
      * @ORM\Column(type="object")
@@ -43,9 +41,19 @@ class Post
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $img;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Heart::class, mappedBy="post")
+     */
+    private $hearts;
+
+    public function __construct()
+    {
+        $this->hearts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,17 +84,6 @@ class Post
         return $this;
     }
 
-    public function getGalleryUser(): ?GaleryUser
-    {
-        return $this->galleryUser;
-    }
-
-    public function setGalleryUser(?GaleryUser $galleryUser): self
-    {
-        $this->galleryUser = $galleryUser;
-
-        return $this;
-    }
 
     public function getImage()
     {
@@ -117,9 +114,40 @@ class Post
         return $this->img;
     }
 
-    public function setImg(?string $img): self
+    public function setImg(string $img): self
     {
         $this->img = $img;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Heart[]
+     */
+    public function getHearts(): Collection
+    {
+        return $this->hearts;
+    }
+
+    public function addHeart(Heart $heart): self
+    {
+        if (!$this->hearts->contains($heart)) {
+            $this->hearts[] = $heart;
+            $heart->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHeart(Heart $heart): self
+    {
+        if ($this->hearts->contains($heart)) {
+            $this->hearts->removeElement($heart);
+            // set the owning side to null (unless already changed)
+            if ($heart->getPost() === $this) {
+                $heart->setPost(null);
+            }
+        }
 
         return $this;
     }

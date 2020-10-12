@@ -18,8 +18,13 @@
             <tr>
                 <td><img src="{{ asset('uploads/') ~ image }}" width="300"></td>
             </tr>
+
         </tbody>
     </table>
+    {% if post.getUser.getId == app.user.getId %}
+    {% else%}
+        {{ include('like/_like.html.twig') }}
+    {% endif %}
 
     <a href="{{ ref }}">back to list</a>
 {% endblock %}

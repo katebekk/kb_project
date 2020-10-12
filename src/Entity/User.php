@@ -64,11 +64,17 @@ class User implements UserInterface
      */
     private $subscribers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Heart::class, mappedBy="user")
+     */
+    private $hearts;
+
     public function __construct()
     {
         $this->post = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
+        $this->hearts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +270,37 @@ class User implements UserInterface
         }
 
         return true;
+    }
+
+    /**
+     * @return Collection|Heart[]
+     */
+    public function getHearts(): Collection
+    {
+        return $this->hearts;
+    }
+
+    public function addHeart(Heart $heart): self
+    {
+        if (!$this->hearts->contains($heart)) {
+            $this->hearts[] = $heart;
+            $heart->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHeart(Heart $heart): self
+    {
+        if ($this->hearts->contains($heart)) {
+            $this->hearts->removeElement($heart);
+            // set the owning side to null (unless already changed)
+            if ($heart->getUser() === $this) {
+                $heart->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Heart;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -66,16 +67,35 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_show", methods={"GET"})
+     * @Route("/{id}", name="post_show", methods={"GET","POST"})
      */
-    public function show(Post $post): Response
+    public function show(Request $request,Post $post): Response
     {   $ref = $_SERVER['HTTP_REFERER'];
         $user=$post->getUser();
+        $curUser = $this->getUser();
+        $form = $this->createFormBuilder()
+            ->getForm();
+        $form->handleRequest($request);
+        $postHearts = $post->getHearts();
+
+        if ($form->isSubmitted() ) {
+            $heart = new Heart();
+            $heart->setDateHeart(new \DateTime());
+            $heart->setUser($curUser);
+            $heart->setPost($post);
+            $curUser->addHeart($heart);
+            $post->addHeart($heart);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($heart);
+            $entityManager->flush();
+        }
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'user' => $user,
             'ref' => $ref,
             'image' => $post->getImg(),
+            'form' => $form->createView(),
 
         ]);
     }

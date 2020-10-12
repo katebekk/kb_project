@@ -35,6 +35,16 @@ class UserController extends AbstractController
         ]);
     }
     /**
+     * @Route("/favorite", name="favorite", methods={"GET"})
+     */
+    public function favorite(): Response
+    {
+        $user = $this->getUser();
+        return $this->render('user/favorite.html.twig', [
+            'hearts' => $user->getHearts(),
+        ]);
+    }
+    /**
      * @Route("/all_users", name="all_users", methods={"GET"})
      */
     public function allUsers(UserRepository $userRepository): Response
