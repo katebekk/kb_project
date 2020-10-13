@@ -21,7 +21,7 @@
         </tbody>
     </table>
     {% if app.user.isSubscribed(user) == false %}
-        {{ include('user/_form.html.twig') }}
+        {{ include('user/_subscribe_form.html.twig') }}
     {% else %}
         {{ include('user/_unsubscribe_form.html.twig') }}
     {% endif %}
