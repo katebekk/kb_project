@@ -84,4 +84,17 @@ class Category
 
          return $this;
      }*/
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getCategory() === $this) {
+                $post->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
 }
