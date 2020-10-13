@@ -21,6 +21,7 @@
                         <li><a href="{{ path('user') }}">Главная</a></li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY')%}
                         <li><a href={{ path('post_new') }}>Добавить фото</a></li>
+                        <li><a href={{ path('category_new') }}>Добавить категорию</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -67,5 +68,5 @@
     </div>
 
     </body>
-    <footer>FOOTER</footer>
+    <footer>MyGalllery</footer>
 </html>

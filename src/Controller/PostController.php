@@ -5,12 +5,18 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Heart;
 use App\Form\PostType;
+use App\Form\PostEditType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 /**
  * @Route("/post")
@@ -77,8 +83,9 @@ class PostController extends AbstractController
             ->getForm();
         $form->handleRequest($request);
         $postHearts = $post->getHearts();
+        $isLiked = $post->searchHeart($curUser);
 
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted() && $isLiked == false ) {
             $heart = new Heart();
             $heart->setDateHeart(new \DateTime());
             $heart->setUser($curUser);
@@ -96,6 +103,7 @@ class PostController extends AbstractController
             'ref' => $ref,
             'image' => $post->getImg(),
             'form' => $form->createView(),
+            'hearts_numb'=>count($post->getHearts()),
 
         ]);
     }
@@ -105,7 +113,14 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post): Response
     {
-        $form = $this->createForm(PostType::class, $post);
+        /*$form = $this->createFormBuilder(PostType::class, $post)
+            ->add('description')
+            ->add('category', EntityType ::class, [
+                'class' => 'App\Entity\Category',
+                'label' => 'Категория'
+            ])
+            ->getForm();*/
+        $form = $this->createForm(PostEditType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,10 +142,26 @@ class PostController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $like = $post->getHearts();
             $entityManager->remove($post);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('my_posts');
+    }
+    /**
+     * @Route("/{id}/by_category", name="by_category", methods={"GET"})
+     */
+    public function by_category(PostRepository $postRepository, Post $post): Response
+    {   $postRep = $postRepository->findAll();
+        $category = $post->getCategory();
+        $categoryPosts = new ArrayCollection();
+        foreach ($postRep as $item)
+            if ($item->getCategory() === $category)
+                $categoryPosts[] = $item;
+        return $this->render('post/by_category.html.twig', [
+            'posts' => $categoryPosts,
+            'category'=>$category,
+        ]);
     }
 }

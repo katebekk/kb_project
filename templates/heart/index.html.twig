@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Heart index{% endblock %}
+
+{% block body %}
+    <h1>Heart index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateHeart</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for heart in hearts %}
+            <tr>
+                <td>{{ heart.id }}</td>
+                <td>{{ heart.dateHeart ? heart.dateHeart|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('heart_show', {'id': heart.id}) }}">show</a>
+                    <a href="{{ path('heart_edit', {'id': heart.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('heart_new') }}">Create new</a>
+{% endblock %}

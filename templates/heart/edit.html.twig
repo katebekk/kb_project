@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Heart{% endblock %}
+
+{% block body %}
+    <h1>Edit Heart</h1>
+
+    {{ include('heart/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('heart_index') }}">back to list</a>
+
+    {{ include('heart/_delete_form.html.twig') }}
+{% endblock %}

@@ -17,13 +17,20 @@
             <tr>
                 <td><img src="{{ asset('uploads/') ~ post.getImg }}" width="200"></td>
                 <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+                    <ul>
+                        <li>
+                            <a href="{{ path('post_show', {'id': post.id}) }}">показать</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('post_edit', {'id': post.id}) }}">редактировать</a>
+                        </li>
+
+                    </ul>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">записи не найдены</td>
             </tr>
         {% endfor %}
         </tbody>

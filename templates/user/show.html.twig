@@ -15,7 +15,7 @@
             <td>{{ user.nickname }}</td>
         </tr>
         <tr>
-            <th>Description</th>
+            <th>Описание</th>
             <td>{{ user.description }}</td>
         </tr>
         </tbody>
@@ -37,12 +37,12 @@
             <tr>
                 <td><img src="{{ asset('uploads/') ~ post.getImg }}" width="200"></td>
                 <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
+                    <a href="{{ path('post_show', {'id': post.id}) }}">показать</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">записи не найдены</td>
             </tr>
         {% endfor %}
         </tbody>

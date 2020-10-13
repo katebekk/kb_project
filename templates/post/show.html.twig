@@ -7,24 +7,47 @@
 
     <table class="table">
         <tbody>
+        {% if post.getUser.getId == app.user.getId %}
+        {% else%}
             <tr>
-                <th>DateOfCreation</th>
+                <th>Пользователь</th>
+                <td><a href="{{ path('user_show', {'id': post.getUser.getId}) }}">{{ post.getUser.getNickname }}</a></td>
+            </tr>
+        {% endif %}
+            <tr>
+                <th>Дата создания</th>
                 <td>{{ post.dateOfCreation ? post.dateOfCreation|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>Описание</th>
                 <td>{{ post.description }}</td>
+            </tr>
+            <tr>
+                <th>Категория</th>
+                {% if  post.getCategory is not same as(null)  %}
+                <td><a href="{{ path('by_category', {'id': post.getId}) }}">{{ post.category }}</a></td>
+                {% else %}
+                <td> {{ post.category }}</td>
+                {% endif %}
             </tr>
             <tr>
                 <td><img src="{{ asset('uploads/') ~ image }}" width="300"></td>
             </tr>
+            <tr>
+                <td><img src="https://img.icons8.com/cotton/64/000000/like--v1.png"/>{{ hearts_numb }}</td>
+            </tr>
 
         </tbody>
     </table>
-    {% if post.getUser.getId == app.user.getId %}
-    {% else%}
-        {{ include('like/_like.html.twig') }}
-    {% endif %}
+    <ul>
+        <li>
+            {% if post.getUser.getId == app.user.getId %}
+                <a href="{{ path('post_edit', {'id': post.id}) }}">редактировать</a>
+            {% else%}
+                {{ include('like/_like.html.twig') }}
+            {% endif %}
+        </li>
+        <li> <a href="{{ ref }}">назад</a></li>
+    </ul>
 
-    <a href="{{ ref }}">back to list</a>
 {% endblock %}

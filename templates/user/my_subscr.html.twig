@@ -10,8 +10,8 @@
         <tr>
             <th>Id</th>
             <th>nickname</th>
-            <th>Description</th>
-            <th>actions</th>
+            <th>Описание</th>
+            <th>Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -22,12 +22,12 @@
                     <td>{{ user.description }}</td>
 
                     <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">показать</a>
                     </td>
                 </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">записи не найдены</td>
             </tr>
         {% endfor %}
         </tbody>

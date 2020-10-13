@@ -25,7 +25,7 @@ class Post
     private $dateOfCreation;
 
     /**
-     * @ORM\Column(type="string", length=300, nullable=true)
+     * @ORM\Column(type="string", length=300, nullable=false)
      */
     private $description;
 
@@ -49,6 +49,11 @@ class Post
      * @ORM\OneToMany(targetEntity=Heart::class, mappedBy="post")
      */
     private $hearts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts")
+     */
+    private $category;
 
     public function __construct()
     {
@@ -151,4 +156,37 @@ class Post
 
         return $this;
     }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function searchHeart(User $user):bool {
+        $strict = false;
+        $haystack = $this->getHearts();
+
+        foreach ($haystack as $item)
+            if ($item->getUser() === $user)
+                $strict = true;
+
+        return $strict;
+    }
+
+/*
+    public function removeCategory(Category $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
+
+        return $this;
+    }*/
 }

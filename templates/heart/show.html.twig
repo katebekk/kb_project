@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Heart{% endblock %}
+
+{% block body %}
+    <h1>Heart</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ heart.id }}</td>
+            </tr>
+            <tr>
+                <th>DateHeart</th>
+                <td>{{ heart.dateHeart ? heart.dateHeart|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('heart_index') }}">back to list</a>
+
+    <a href="{{ path('heart_edit', {'id': heart.id}) }}">edit</a>
+
+    {{ include('heart/_delete_form.html.twig') }}
+{% endblock %}
