@@ -24,7 +24,7 @@ class Heart
 
     /**
      * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="hearts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $post;
 

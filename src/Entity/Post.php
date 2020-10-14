@@ -169,15 +169,14 @@ class Post
         return $this;
     }
 
-    public function searchHeart(User $user):bool {
-        $strict = false;
+    public function searchHeart(User $user): ?Heart
+    {
         $haystack = $this->getHearts();
-
         foreach ($haystack as $item)
             if ($item->getUser() === $user)
-                $strict = true;
+                return $item;
 
-        return $strict;
+        return null;
     }
 
 /*

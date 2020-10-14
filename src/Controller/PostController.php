@@ -85,7 +85,7 @@ class PostController extends AbstractController
         $postHearts = $post->getHearts();
         $isLiked = $post->searchHeart($curUser);
 
-        if ($form->isSubmitted() && $isLiked == false ) {
+        if ($form->isSubmitted() && $isLiked == null ) {
             $heart = new Heart();
             $heart->setDateHeart(new \DateTime());
             $heart->setUser($curUser);
@@ -95,8 +95,13 @@ class PostController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($heart);
             $entityManager->flush();
+        }else if ($form->isSubmitted() && $isLiked !== null ) {
+            $curUser->removeHeart($isLiked);
+            $post->removeHeart($isLiked);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($isLiked);
+            $entityManager->flush();
         }
-
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'user' => $user,
@@ -142,8 +147,13 @@ class PostController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $like = $post->getHearts();
+           /* $likes = $post->getHearts();
+            foreach ($likes as $item){
+                $us=$item->getUser();
+                $us->removeHeart($item);
+            }*/
             $entityManager->remove($post);
+
             $entityManager->flush();
         }
 

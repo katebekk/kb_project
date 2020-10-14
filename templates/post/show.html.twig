@@ -44,7 +44,11 @@
             {% if post.getUser.getId == app.user.getId %}
                 <a href="{{ path('post_edit', {'id': post.id}) }}">редактировать</a>
             {% else%}
-                {{ include('like/_like.html.twig') }}
+                {% if post.searchHeart(app.user) == null %}
+                    {{ include('like/_like.html.twig') }}
+                {% else %}
+                    {{ include('like/_dislike.html.twig') }}
+                {% endif %}
             {% endif %}
         </li>
         <li> <a href="{{ ref }}">назад</a></li>
