@@ -3,8 +3,10 @@
 {% block title %}New Category{% endblock %}
 
 {% block body %}
-    <h1>Добавить категорию</h1>
-
-    {{ include('category/_form.html.twig') }}
-
+    <section class="jumbotron">
+        <div class="container bg-light">
+            <h2>Добавить категорию</h2>
+            {{ include('category/_form.html.twig') }}
+        </div>
+    </section>
 {% endblock %}

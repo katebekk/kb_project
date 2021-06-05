@@ -3,29 +3,18 @@
 {% block title %}Избранное{% endblock %}
 
 {% block body %}
-    <h1>Избранное</h1>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Фото</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for heart in hearts %}
-            <tr>
-                <td><img src="{{ asset('uploads/') ~ heart.getPost.getImg }}" width="200"></td>
-                <td>
-                    <a href="{{ path('post_show', {'id': heart.getPost.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">записи не найдены</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="example-wrapper">
+        <h2>Избранное</h2>
+        <div class="album bg-light">
+            <div class="container">
+                <div class="row">
+                    {% include 'feed/feed.html.twig' with {
+                        feedPosts: posts
+                    } %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 {% endblock %}

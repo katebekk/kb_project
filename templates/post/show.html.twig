@@ -3,7 +3,34 @@
 {% block title %}Post{% endblock %}
 
 {% block body %}
-    <h1>Post</h1>
+    <div class="col-md-auto center">
+        <a href="{{ ref }}"><назад</a>
+        <div class="card mb-4 box-shadow" style="width: 226px; display: block;">
+            <img class="card-img-top" data-src="{{ asset('uploads/') ~ post.getImg }}" style="display: block;" src="{{ asset('uploads/') ~ post.getImg }}" data-holder-rendered="true">
+            <div class="card-body">
+                <p class="card-text">{{ post.description }}</p>
+                <div class="row">
+                        {% if post.searchHeart(app.user) == null %}
+                            {{ include('like/_like.html.twig') }}
+                        {% else %}
+                            {{ include('like/_dislike.html.twig') }}
+                        {% endif %}
+                    <p class="col py-2">{{ hearts_numb }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        {% if post.getUser.getId == app.user.getId %}
+                            <a type="button" class="btn btn-sm btn-outline-secondary"
+                               href="{{ path('post_edit', {'id': post.id}) }}">Редактировать</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <small class="text-muted">{{ post.dateOfCreation|date("m/d/Y") }}</small>
+            </div>
+        </div>
+    </div>
+
+    {#<h1>Post</h1>
 
     <table class="table">
         <tbody>
@@ -52,6 +79,6 @@
             {% endif %}
         </li>
         <li> <a href="{{ ref }}">назад</a></li>
-    </ul>
+    </ul>#}
 
 {% endblock %}

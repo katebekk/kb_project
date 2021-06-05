@@ -7,16 +7,25 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.nickname) }}
+    <main class="py-5 form-signin py-lg-5">
+        {{ form_start(registrationForm) }}
+        <h2 class="font-weight-light">Регистрация</h2>
+        <label for="email">email</label>
+        {{ form_row(registrationForm.email, {
+            id: 'email',
+            class: 'p-1'
+        }) }}
+        <label for="nickname">имя пользователя</label>
+        {{ form_row(registrationForm.nickname, {
+            id: 'nickname',
+            class: 'p-1'
+        }) }}
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'пароль'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        <button type="submit" class="btn btn-lg btn-primary p-1">Зарегистрироваться</button>
+        {{ form_end(registrationForm) }}
+    </main>
 {% endblock %}

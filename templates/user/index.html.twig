@@ -3,35 +3,26 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-    <h1>Пользователи</h1>
+    <div class="container">
+        <h2>Все пользователи</h2>
+        <ul class="list-group bg-light">
+            {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-sm">
+                        {{ user.nickname }}
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-sm btn-outline-secondary" href="{{ path('user_show', {'id': user.id}) }}">показать</a>
+                        </div>
+                    </div>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>nickname</th>
-            <th>Описание</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            {% if not (user.id == curUser.id) %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.nickname }}</td>
-                <td>{{ user.description }}</td>
-
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">показать</a>
-                </td>
-            </tr>
-            {% endif %}
-        {% else %}
-            <tr>
-                <td colspan="4">записи не найдены</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </li>
+            {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Нет подписчиков</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

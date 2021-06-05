@@ -4,69 +4,82 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{#        <link rel="stylesheet" href="{{ asset('css/style.css') }}">#}
+        <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/signin.css') }}">
        {% block stylesheets %}{% endblock %}
     </head>
     <body>
         <header>
-        {% block header %}
-                <div class="header_logo">
-                    <a href="">MyGallery</a>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                        <a href="" id="nick">{{ app.user.nickname }}</a>
-                    {% endif %}
+            {% block header %}
+                <div class="container">
+                    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light "
+                         style="background-color: #e3f2fd;">
+                        <div class="header_logo">
+                            <a class="navbar-brand" href="">MyGallery</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <div class="navbar-nav">
+                                <li class="nav-item active">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href={{ path('post_new') }}>Добавить фото</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href={{ path('category_new') }}>Добавить категорию</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href={{ path('feed') }}>Лента</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="{{ path('my_posts') }}" id="navbarDropdownMenuLink"
+                                           role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Мой профиль
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            <a class="dropdown-item" href="{{ path('my_posts') }}">Мои фото</a>
+                                            <a class="dropdown-item" href="{{ path('my_subscribers') }}">Мои
+                                                подписчики</a>
+                                            <a class="dropdown-item" href="{{ path('my_subscriptions') }}">Мои
+                                                подписки</a>
+                                            <a class="dropdown-item" href="{{ path('all_users') }}">Все пользователи</a>
+                                            <a class="dropdown-item" href="{{ path('favorite') }}">Избранное</a>
+
+                                        </div>
+                                    </li>
+                                {% endif %}
+                                </ul>
+                            </div>
+                            </div>
+                        <ul class="nav ml-auto">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li class="nav-item "><a href="{{ path('app_logout') }}"
+                                                         class="btn-light nav-link link-light px-2">Выйти</a></li>
+                            {% else %}
+                                <li class="nav-item "><a href="{{ path('app_login') }}"
+                                                         class="btn-light nav-link link-light px-2">Войти</a></li>
+                                <li class="nav-item "><a href="{{ path('app_register') }}"
+                                                         class="btn-light nav-link link-light px-2">Регистрация</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="{{ path('user') }}">Главная</a></li>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                        <li><a href={{ path('post_new') }}>Добавить фото</a></li>
-                        <li><a href={{ path('category_new') }}>Добавить категорию</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                    <button class="green"><a href="{{ path('app_logout') }}">Выйти</a> </button>
-                {% else %}
-                    <button class="green"><a href="{{ path('app_login') }}">Войти</a> </button>
-                    <button class="green"><a href="{{ path('app_register') }}">Регистрация</a> </button>
-                {% endif %}
-        {% endblock %}
+            {% endblock %}
         </header>
     <div class="center_block_main">
-        <aside>
-            {%  block sidebar%}
-                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                    <ul>
-                        <li>
-                            <a href="{{path('my_posts')}}">Мои фото</a>
-                        </li>
-                        <li>
-                            <a href="{{path('my_subscribers')}}">Мои подписчики</a>
-                        </li>
-                        <li>
-                            <a href="{{path('my_subscriptions')}}">Мои подписки</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('all_users') }}">Все пользователи</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('favorite') }}">Избранное</a>
-                        </li>
-                    </ul>
-                {% endif %}
-            {% endblock %}
-        </aside>
         <main>
-        {% block body%}
-        {% endblock %}
+            <section class="jumbotron ">
+                <div class="container">
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </section>
         </main>
-
         {% block javascripts %}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     </div>
 
     </body>
-    <footer>MyGalllery</footer>
 </html>

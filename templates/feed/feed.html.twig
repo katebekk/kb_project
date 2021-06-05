@@ -1,0 +1,56 @@
+<div class="container">
+    {% if feedPosts|length > 3 %}
+        {% for i in range(0,(feedPosts|length)-2,2) %}
+            <div class="row featurette">
+                <div class="col-md-7 center">
+                    <h2 class="featurette-heading">@{{ feedPosts[i].user.nickname }}
+                    </h2>
+                    <p class="lead">{{ feedPosts[i].description }}</p>
+                    <p class="lead">#{{ feedPosts[i].category }}</p>
+                    <small class="text-muted">{{ feedPosts[i].dateOfCreation|date("m/d/Y") }}</small>
+                </div>
+                <div class="col-md-5">
+                    <img class="card-img-top center" data-src="{{ asset('uploads/') ~ feedPosts[i].getImg }}"
+                         style="width: 225px; display: block;" src="{{ asset('uploads/') ~ feedPosts[i].getImg }}"
+                         data-holder-rendered="true">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2 center">
+                    <h2 class="featurette-heading">@{{ feedPosts[i+1].user.nickname }}
+                    </h2>
+                    <p class="lead">{{ feedPosts[i+1].description }}</p>
+                    <p class="lead">#{{ feedPosts[i+1].category }}</p>
+                    <small class="text-muted">{{ feedPosts[i+1].dateOfCreation|date("m/d/Y") }}</small>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <img class="card-img-top center" data-src="{{ asset('uploads/') ~ feedPosts[i+1].getImg }}"
+                         style="width: 225px; display: block;" src="{{ asset('uploads/') ~ feedPosts[i+1].getImg }}"
+                         data-holder-rendered="true">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+        {% endfor %}
+    {% else %}
+        {% for post in feedPosts %}
+        <div class="row featurette">
+            <div class="col-md-7 center">
+                <h2 class="featurette-heading">@{{ post.user.nickname }}
+                </h2>
+                <p class="lead">{{ post.description }}</p>
+                <p class="lead">#{{ post.category }}</p>
+                <small class="text-muted">{{ post.dateOfCreation|date("m/d/Y") }}</small>
+            </div>
+            <div class="col-md-5">
+                <img class="card-img-top center" data-src="{{ asset('uploads/') ~ post.getImg }}"
+                     style="width: 225px; display: block;" src="{{ asset('uploads/') ~ post.getImg }}"
+                     data-holder-rendered="true">
+            </div>
+        </div>
+        {% else %}
+        <p class="center">Лента пуста</p>
+        {% endfor %}
+    {% endif %}
+
+</div>

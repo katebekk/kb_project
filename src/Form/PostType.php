@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 
 class PostType extends AbstractType
 {
@@ -17,15 +18,29 @@ class PostType extends AbstractType
         $builder
             /*->add('dateOfCreation')*/
             ->add('description', TextType::class,[
-                'label' => 'Описание'
+                'label' => 'Описание',
+                'required' => false
             ])
             ->add('category', EntityType ::class, [
                 'class' => 'App\Entity\Category',
-                'label' => 'Категория'
+                'label' => 'Категория',
+                 'attr' => ['class' => 'custom-select']
             ])
             ->add('my_file', FileType::class, [
                 'mapped' => false,
-                'label' => 'Please upload file'
+                'label' => 'Загрузите фотографию',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/PNG',
+
+                        ],
+                        'mimeTypesMessage' => 'Пожалуйста выберете файл с расшернием png или jpeg',
+                    ])
+                ],
             ])
 
         ;

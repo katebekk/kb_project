@@ -40,8 +40,15 @@ class UserController extends AbstractController
     public function favorite(): Response
     {
         $user = $this->getUser();
+        $hearts = $user->getHearts();
+        $posts = array();
+        foreach ($hearts as $heart){
+            $posts[] = $heart->getPost();
+        }
+
         return $this->render('user/favorite.html.twig', [
             'hearts' => $user->getHearts(),
+            'posts' =>$posts,
         ]);
     }
     /**

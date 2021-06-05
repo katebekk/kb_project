@@ -3,11 +3,11 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block body %}
-    <h1>Редактировать пост</h1>
-
-    <ul>
-        <li><div>{{ include('post/_form.html.twig', {'button_label': 'Update'}) }}</div></li>
-        <li><a></a></li>
-        <li><a>{{ include('post/_delete_form.html.twig') }}</a></li>
-    </ul>
+    <section class="jumbotron">
+        <div class="container bg-light">
+            <h2>Редактировать пост</h2>
+            {{ include('post/_form.html.twig') }}
+            <a>{{ include('post/_delete_form.html.twig') }}</a>
+        </div>
+    </section>
 {% endblock %}

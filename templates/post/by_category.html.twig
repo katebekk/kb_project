@@ -5,26 +5,9 @@
 {% block body %}
     <h1>{{ category }}</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Фото</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for post in posts %}
-            <tr>
-                <td><img src="{{ asset('uploads/') ~ post.getImg }}" width="200"></td>
-                <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">записи не найдены</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        {% include 'feed/feed.html.twig' with {
+            feedPosts: posts
+        } %}
+    </div>
 {% endblock %}

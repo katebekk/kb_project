@@ -118,13 +118,6 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post): Response
     {
-        /*$form = $this->createFormBuilder(PostType::class, $post)
-            ->add('description')
-            ->add('category', EntityType ::class, [
-                'class' => 'App\Entity\Category',
-                'label' => 'Категория'
-            ])
-            ->getForm();*/
         $form = $this->createForm(PostEditType::class, $post);
         $form->handleRequest($request);
 
@@ -147,11 +140,6 @@ class PostController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-           /* $likes = $post->getHearts();
-            foreach ($likes as $item){
-                $us=$item->getUser();
-                $us->removeHeart($item);
-            }*/
             $entityManager->remove($post);
 
             $entityManager->flush();

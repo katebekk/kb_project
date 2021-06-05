@@ -24,11 +24,6 @@ class Post
      */
     private $dateOfCreation;
 
-    /**
-     * @ORM\Column(type="string", length=300, nullable=false)
-     */
-    private $description;
-
 
     /**
      * @ORM\Column(type="object")
@@ -55,6 +50,11 @@ class Post
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->hearts = new ArrayCollection();
@@ -76,18 +76,7 @@ class Post
 
         return $this;
     }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
+    
 
 
     public function getImage()
@@ -188,4 +177,16 @@ class Post
 
         return $this;
     }*/
+
+public function getDescription(): ?string
+{
+    return $this->description;
+}
+
+public function setDescription(?string $description): self
+{
+    $this->description = $description;
+
+    return $this;
+}
 }
